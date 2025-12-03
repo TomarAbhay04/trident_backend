@@ -1,52 +1,3 @@
-// // src/server.js
-// import express from "express";
-// import dotenv from "dotenv";
-// import cors from "cors";
-// import path from "path";
-// import { fileURLToPath } from "url";
-
-// import connectDB from "./config/db.js";
-// import { errorHandler } from "./middleware/errorMiddleware.js";
-
-// import authRoutes from "./routes/authRoutes.js";
-// import userRoutes from "./routes/userRoutes.js";
-// import policyCategoryRoutes from "./routes/policyCategoryRoutes.js";
-// import policyRoutes from "./routes/policyRoutes.js";
-// import dashboardRoutes from "./routes/dashboardRoutes.js";
-
-// dotenv.config();
-// connectDB();
-
-// const app = express();
-
-// // __dirname setup for ES modules
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// // Middlewares
-// app.use(cors());
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-
-// app.use('/', (req, res) => {
-//   res.send('API is running...');
-// });
-// // Static folder for uploads
-// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// // Routes
-// app.use("/api/auth", authRoutes);
-// app.use("/api/users", userRoutes);
-// app.use("/api/policy-categories", policyCategoryRoutes);
-// app.use("/api/policies", policyRoutes);
-// app.use("/api/dashboard", dashboardRoutes);
-
-// // Error handler
-// app.use(errorHandler);
-
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
 // src/server.js
 import express from "express";
 import dotenv from "dotenv";
@@ -72,6 +23,7 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Middlewares
 // Allowed CORS origins
 const allowedOrigins = [
   "http://localhost:3000",          // React dev (if you use 3000)
@@ -99,26 +51,23 @@ app.use(
 // Handle preflight requests
 app.options("*", cors());
 
-// Body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/', (req, res) => {
+  res.send('API is running...');
+});
 // Static folder for uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// API Routes
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/policy-categories", policyCategoryRoutes);
 app.use("/api/policies", policyRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
-// Health check / root route
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
-
-// Error handler (should be last)
+// Error handler
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
