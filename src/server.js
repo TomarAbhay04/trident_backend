@@ -24,33 +24,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middlewares
-// Allowed CORS origins
-const allowedOrigins = [
-  "http://localhost:3000",          // React dev (if you use 3000)
-  "http://localhost:5173",          // Vite dev (if you use 5173)
-  "https://trident-frontend-dlsk.vercel.app", // Vercel frontend
-];
-
-// CORS middleware
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like Postman, curl)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true, // set to true if you're using cookies / auth headers across origins
-  })
-);
-
-// Handle preflight requests
-app.options("*", cors());
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
